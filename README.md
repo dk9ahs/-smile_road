@@ -1,9 +1,67 @@
-Springboot web development for JAVA Backend Engineer Class 2024
+# SpringBoot-Project-SmileRoad 
+스프링 부트 + JSP 교통약자편의시설 위치 공유 사이트
 
-Team members: Nahyun Kim, Davin Jang, Yerim Na, Keon Kim
+## 프로젝트 소개
+교통 약자들가 필요로 하는 편의시설의 위치 정보를 제공해 생활 범위 확장, 외출시 현실적인 어려움과 불편함을 해소시키고자 웹사이트를 기획하였습니다.
 
-Timeline: Aug 2024 to Sept 2024
+## 개발 기간 
+2024.7.31 ~ 2024.09.05
 
-Tools that we used: SpringToolSuite4, Eclipse, Git, GitHub, VS Code, Oracle SQL Developer, Slack, Trello, Source Tree
+### 개발 환경
+- `Java 17`
+- `JDK 17.0.11`
+- **IDE** : STS 4.0
+- **Framework** : Springboot(3.3.2)
+- **Database** : Oracle DB(21c)
+- **ORM** : Mybatis
 
-Add extra info here
+## 주요기능
+#### 로그인 
+- DB값 검증
+- 네이버 SMTP - 이메일 전송, Redis - 이메일,인증번호 저장하여 ID찾기, PW찾기
+- 중복 로그인 방지
+- 로그인 시 쿠키(Cookie) 및 세션(Session) 생성
+- 로그인 실패시 계정 잠금, 오류메세지 구현
+
+#### 회원가입
+- 주소 API 연동
+- ID 중복 체크
+- 소셜 로그인 (카카오, 네이버, 구글)
+
+#### 마이 페이지
+- 주소 API 연동
+- 회원 정보 변경
+- PW 변경
+- 회원 탈퇴
+
+#### 위치 정보
+- DB 연동과 범위 지정
+- 현재 위치 정보 제공
+- 카카오 지도 API 연동 (마커, 축소및 확대, 지도 타입 변경)
+- 위치 정보 모달창 구현
+
+#### 공지사항 게시판, 커뮤니티 게시판
+- 글 작성, 읽기, 수정, 삭제(CRUD)
+- 새 글, 파일 첨부 시 뱃지
+- 페이징 및 검색
+- 댓글
+
+#### 문의사항 게시판
+- 글 작성, 읽기, 수정, 삭제(CRUD)
+- 비밀글 구현
+- 관리자일시 답글 작성
+
+#### 채팅 상담
+- Firebase 연동
+- 팝업으로 채팅 입장 확인
+- 메세지 전송
+- 채팅방 삭제
+- 관리자일시 채팅방 리스트
+
+#### 관리자 페이지
+- 회원 목록 및 상세정보 확인
+- 회원 권한 및 잠금 설정
+- 회원 검색
+
+
+  
