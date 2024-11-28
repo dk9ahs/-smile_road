@@ -21,6 +21,72 @@
     - 이용자는 즉시 관리자와 연결될 수 있으며, 관리자는 새로운 문의가 도착할 때 채팅방 리스트에서 선택하여 채팅을 시작할 수 있습니다.
     - 메시지 전송과 채팅방 삭제는 Ajax를 통해 서버로 비동기 전송하여 실시간으로 반영되도록 처리했습니다.
     - 채팅방 리스트 조회는 CompletableFuture를 활용해 비동기 방식으로 목록을 반환하여 빠른 응답을 제공했습니다.
+ 
+    <details>
+            <summary>ChatController</summary>
+        
+        chatService.getMessagesByChatRoomId(chatRoomId)
+        	            .thenApply(messages -> {
+        	                model.addAttribute("messages", messages);
+        	                re@Controller
+        public class ChatController {
+        	
+        	@Autowired
+            private ChatService chatService;
+        	
+        	// 채팅방 전 확인 팝업
+        	@RequestMapping("member/chatPopup")
+        	public String chatPopup(Model model) {
+        		String sId = SecurityContextHolder.getContext().getAuthentication().getName();
+        		
+        		model.addAttribute("Id", sId);
+        		return "member/chatPopup";
+        	}
+        	
+        	// 채팅방
+        	@RequestMapping("member/chatRoom")
+        	public CompletableFuture<Object> chatRoom(HttpServletRequest request, Model model)
+        	{
+        		String sId = SecurityContextHolder.getContext().getAuthentication().getName();
+        		String chatRoomId = request.getParameter("chatRoomId");
+        	    model.addAttribute("Id", sId); // 로그인된 아이디
+        	    model.addAttribute("chatRoomId", chatRoomId);
+        	    
+        	    return turn "member/chatRoom";
+        	            });
+        	}
+        	
+        	// 메세지 보내는 기능
+        	@PostMapping("member/chatRoom/send")
+        	public ResponseEntity<MessageDto> sendMessage(@RequestBody MessageDto message) {
+        		chatService.sendMessage(message);
+        	    return ResponseEntity.ok(message);
+        	}
+        	
+        	// 관리자 전용 채팅방리스트
+        	@GetMapping("admin/chatRoomList")
+        	public CompletableFuture<String> chatRoomList(Model model) {
+        	    return chatService.getChatRoomList()
+        	        .thenApply(chatRooms -> {
+        	            model.addAttribute("chatRooms", chatRooms);
+        	            return "admin/chatRoomList"; // chatRoomList.jsp 페이지로 이동
+        	        });
+        	}
+        	
+        	 @DeleteMapping("member/chatRoom/deleteChatRoom")
+        	    public ResponseEntity<String> deleteChatRoom(HttpServletRequest request) {
+        	        try {
+        		    		String chatRoomId = request.getParameter("chatRoomId");
+        		            chatService.deleteChatRoom(chatRoomId);
+        		            
+        	            return ResponseEntity.ok("채팅방이 성공적으로 삭제되었습니다.");
+        	        } catch (Exception e) {
+        	            return ResponseEntity.status(500).body("채팅방 삭제에 실패했습니다: " + e.getMessage());
+        	        }
+        	    }
+        }
+    </details>
+    
 - Oracle 기반 계층형 구조와 MyBatis를 활용한 문의 게시판 CRUD 구현
     - Spring Security을 이용해 일반 사용자는 문의글을 작성하고, 관리자는 답변을 작성할 수 있도록 권한을 설정하였습니다.
     - 문의 게시판의 CRUD 기능과 비밀글 기능을 구현하여 사용자별 접근 권한을 강화했습니다.
